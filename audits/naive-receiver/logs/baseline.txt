@@ -1,0 +1,34 @@
+No files changed, compilation skipped
+
+Ran 4 tests for test/Regression.t.sol:NaiveReceiverRegression
+[PASS] test_regression_depositAndWithdraw() (gas: 170421)
+[PASS] test_regression_forwardedSingleCall() (gas: 233616)
+[SKIP] test_regression_patch_spoofedMulticallRejected() (gas: 0)
+[PASS] test_regression_selfInitiatedFlashLoan() (gas: 120621)
+Suite result: ok. 3 passed; 0 failed; 1 skipped; finished in 2.22ms (1.64ms CPU time)
+
+Ran 2 tests for test/NaiveReceiverPoC.t.sol:NaiveReceiverPoC
+[PASS] test_PoC_N01_unprotectedFlashLoanDrainsReceiver() (gas: 780161)
+[PASS] test_PoC_N02_forwarderSpoofStealsVictimDeposit() (gas: 214643)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 2.61ms (2.16ms CPU time)
+
+Ran 1 test for test/invariant/NaiveReceiverInvariants.t.sol:NaiveReceiverInvariants
+[PASS]
+NaiveReceiverInvariants invariants:
+[PASS] invariant_poolHoldsWhatItOwes
+[PASS] invariant_totalDepositsMatchesSum
+ NaiveReceiverInvariants invariants (runs: 64, calls: 2048, reverts: 0)
+
+╭--------------+-----------+-------+---------+----------╮
+| Contract     | Selector  | Calls | Reverts | Discards |
++=======================================================+
+| NaiveHandler | deposit   | 680   | 0       | 0        |
+|--------------+-----------+-------+---------+----------|
+| NaiveHandler | flashLoan | 682   | 0       | 0        |
+|--------------+-----------+-------+---------+----------|
+| NaiveHandler | withdraw  | 686   | 0       | 0        |
+╰--------------+-----------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 210.93ms (208.02ms CPU time)
+
+Ran 3 test suites in 215.55ms (215.76ms CPU time): 6 tests passed, 0 failed, 1 skipped (7 total tests)

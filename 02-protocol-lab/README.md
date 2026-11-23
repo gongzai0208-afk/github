@@ -13,6 +13,7 @@ patch → failed PoC → regression) also runs on code I wrote.
 | Invariant tests | 5 properties, 64 runs × 32 depth, passing |
 | Echidna | 3 properties, 20,000 calls, passing in WSL — see `test/echidna/RESULTS.md` |
 | Self-audit | `audit/AUDIT.md`: two bugs found (one by a unit test, one by Echidna) and fixed |
+| Static analysis | `audit/slither/SLITHER.md`: 43 findings triaged, 3 Low accepted as follow-ups |
 | Sepolia deployment | **live** — addresses, txs and on-chain checks in `deployments.md` |
 | Source verified | **yes** — 7/7 on Sepolia Etherscan, see `deployments.md` |
 

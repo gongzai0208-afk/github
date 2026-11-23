@@ -1,0 +1,41 @@
+No files changed, compilation skipped
+
+Ran 3 tests for test/StakingRewardsPoC.t.sol:StakingRewardsPoC
+[PASS] test_PoC_budgetDoubleSpent_secondStakerUnpaid() (gas: 704344)
+[PASS] test_PoC_exitRevertsWithoutStake() (gas: 53592)
+[PASS] test_PoC_rewardsDroppedWhileNoStakers() (gas: 328460)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 1.73ms (1.16ms CPU time)
+
+Ran 6 tests for test/Regression.t.sol:StakingRewardsRegression
+[PASS] test_regression_fullPeriodPaysBudget() (gas: 312722)
+[PASS] test_regression_oneWeiInstantClaimEarnsNothing() (gas: 236595)
+[SKIP] test_regression_patch_exitPaysAfterFullWithdraw() (gas: 0)
+[SKIP] test_regression_patch_idleFreezesPeriod() (gas: 0)
+[SKIP] test_regression_patch_secondNotifyRejected() (gas: 0)
+[PASS] test_regression_twoStakersSplitProRata() (gas: 559134)
+Suite result: ok. 3 passed; 0 failed; 3 skipped; finished in 2.02ms (1.03ms CPU time)
+
+Ran 1 test for test/invariant/StakingInvariants.t.sol:StakingInvariants
+[PASS]
+StakingInvariants invariants:
+[PASS] invariant_rewardsAreConserved
+[PASS] invariant_stakingBalanceMatchesTotalStaked
+ StakingInvariants invariants (runs: 64, calls: 2048, reverts: 0)
+
+╭----------------+-----------+-------+---------+----------╮
+| Contract       | Selector  | Calls | Reverts | Discards |
++=========================================================+
+| StakingHandler | getReward | 414   | 0       | 0        |
+|----------------+-----------+-------+---------+----------|
+| StakingHandler | notify    | 432   | 0       | 0        |
+|----------------+-----------+-------+---------+----------|
+| StakingHandler | stake     | 377   | 0       | 0        |
+|----------------+-----------+-------+---------+----------|
+| StakingHandler | warp      | 410   | 0       | 0        |
+|----------------+-----------+-------+---------+----------|
+| StakingHandler | withdraw  | 415   | 0       | 0        |
+╰----------------+-----------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 217.70ms (215.34ms CPU time)
+
+Ran 3 test suites in 222.15ms (221.45ms CPU time): 7 tests passed, 0 failed, 3 skipped (10 total tests)

@@ -1,0 +1,18 @@
+Compiling 62 files with Solc 0.8.25
+Solc 0.8.25 finished in 3.65s
+Compiler run successful!
+
+Ran 1 test for test/TraitForgeNftPoC.t.sol:TraitForgeNftPoC
+[FAIL: Exceeds max generations] test_PoC_P4_generationExceedsMaxGeneration() (gas: 24007391)
+Suite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 2.80ms (1.73ms CPU time)
+
+Ran 1 test suite in 5.27ms (2.80ms CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)
+
+Failing tests:
+Encountered 1 failing test in test/TraitForgeNftPoC.t.sol:TraitForgeNftPoC
+[FAIL: Exceeds max generations] test_PoC_P4_generationExceedsMaxGeneration() (gas: 24007391)
+
+Encountered a total of 1 failing tests, 0 tests succeeded
+
+Tip: Run `forge test --rerun` to retry only the 1 failed test
+Tip: Run `forge test --debug --match-test <TEST_NAME>` to inspect one failing test in the debugger

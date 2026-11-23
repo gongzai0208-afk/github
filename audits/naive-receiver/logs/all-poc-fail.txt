@@ -1,0 +1,46 @@
+Compiling 40 files with Solc 0.8.25
+Solc 0.8.25 finished in 2.58s
+Compiler run successful!
+
+Ran 4 tests for test/Regression.t.sol:NaiveReceiverRegression
+[PASS] test_regression_depositAndWithdraw() (gas: 170421)
+[PASS] test_regression_forwardedSingleCall() (gas: 233616)
+[PASS] test_regression_patch_spoofedMulticallRejected() (gas: 109937)
+[PASS] test_regression_selfInitiatedFlashLoan() (gas: 120653)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 2.11ms (2.38ms CPU time)
+
+Ran 2 tests for test/NaiveReceiverPoC.t.sol:NaiveReceiverPoC
+[FAIL: Unauthorized()] test_PoC_N01_unprotectedFlashLoanDrainsReceiver() (gas: 59846)
+[FAIL: invariant broken: victim deposit cleared: 1000000000000000000000 != 0] test_PoC_N02_forwarderSpoofStealsVictimDeposit() (gas: 160295)
+Suite result: FAILED. 0 passed; 2 failed; 0 skipped; finished in 2.69ms (641.20µs CPU time)
+
+Ran 1 test for test/invariant/NaiveReceiverInvariants.t.sol:NaiveReceiverInvariants
+[PASS]
+NaiveReceiverInvariants invariants:
+[PASS] invariant_poolHoldsWhatItOwes
+[PASS] invariant_totalDepositsMatchesSum
+ NaiveReceiverInvariants invariants (runs: 64, calls: 2048, reverts: 0)
+
+╭--------------+-----------+-------+---------+----------╮
+| Contract     | Selector  | Calls | Reverts | Discards |
++=======================================================+
+| NaiveHandler | deposit   | 697   | 0       | 0        |
+|--------------+-----------+-------+---------+----------|
+| NaiveHandler | flashLoan | 668   | 0       | 0        |
+|--------------+-----------+-------+---------+----------|
+| NaiveHandler | withdraw  | 683   | 0       | 0        |
+╰--------------+-----------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 217.14ms (214.08ms CPU time)
+
+Ran 3 test suites in 221.20ms (221.95ms CPU time): 5 tests passed, 2 failed, 0 skipped (7 total tests)
+
+Failing tests:
+Encountered 2 failing tests in test/NaiveReceiverPoC.t.sol:NaiveReceiverPoC
+[FAIL: Unauthorized()] test_PoC_N01_unprotectedFlashLoanDrainsReceiver() (gas: 59846)
+[FAIL: invariant broken: victim deposit cleared: 1000000000000000000000 != 0] test_PoC_N02_forwarderSpoofStealsVictimDeposit() (gas: 160295)
+
+Encountered a total of 2 failing tests, 5 tests succeeded
+
+Tip: Run `forge test --rerun` to retry only the 2 failed tests
+Tip: Run `forge test --debug --match-test <TEST_NAME>` to inspect one failing test in the debugger

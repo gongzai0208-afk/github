@@ -1,0 +1,15 @@
+No files changed, compilation skipped
+
+Ran 9 tests for test/Regression.t.sol:TraitForgeRegression
+[PASS] test_regression_forgeAtExactFee() (gas: 2829120)
+[PASS] test_regression_patch_budgetMintAcrossBoundary() (gas: 31959719)
+[PASS] test_regression_patch_burnDebitsCurrentOwner() (gas: 733901)
+[PASS] test_regression_patch_entropyCallerRole() (gas: 24669130)
+[PASS] test_regression_patch_guards() (gas: 2647580)
+[PASS] test_regression_patch_pauseStopsMinting() (gas: 535933)
+[PASS] test_regression_patch_rolloverKeepsPrefillAndPrice() (gas: 24690743)
+[PASS] test_regression_realForge() (gas: 3382953)
+[PASS] test_regression_singleMint() (gas: 456105)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 8.38ms (27.18ms CPU time)
+
+Ran 1 test suite in 11.21ms (8.38ms CPU time): 9 tests passed, 0 failed, 0 skipped (9 total tests)

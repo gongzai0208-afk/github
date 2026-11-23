@@ -1,0 +1,12 @@
+No files changed, compilation skipped
+
+Ran 6 tests for test/Regression.t.sol:StakingRewardsRegression
+[PASS] test_regression_fullPeriodPaysBudget() (gas: 330582)
+[PASS] test_regression_oneWeiInstantClaimEarnsNothing() (gas: 241934)
+[PASS] test_regression_patch_exitPaysAfterFullWithdraw() (gas: 424882)
+[PASS] test_regression_patch_idleFreezesPeriod() (gas: 510016)
+[PASS] test_regression_patch_secondNotifyRejected() (gas: 413656)
+[PASS] test_regression_twoStakersSplitProRata() (gas: 593744)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 2.41ms (6.23ms CPU time)
+
+Ran 1 test suite in 5.48ms (2.41ms CPU time): 6 tests passed, 0 failed, 0 skipped (6 total tests)

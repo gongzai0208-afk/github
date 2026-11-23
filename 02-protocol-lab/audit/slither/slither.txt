@@ -1,0 +1,225 @@
+Slither static analysis - 02-protocol-lab
+Tool      : slither 0.11.6
+Compiler  : solc 0.8.25 (commit b61c2a91), optimizer 200, evm version cancun
+Scope     : src/ (8 contracts); test/ and script/ excluded
+Command   : forge build --build-info && slither . --solc solc-0.8.25
+Result    : 43 findings across 11 detectors; triage in SLITHER.md
+
+INFO:Detectors:
+Detector: unchecked-transfer
+LendingPool.liquidate(address,uint256) (src/LendingPool.sol#259-290) ignores return value by asset.transferFrom(msg.sender,address(this),repaid) (src/LendingPool.sol#276)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer
+INFO:Detectors:
+Detector: incorrect-equality
+LendingPool.accrue() (src/LendingPool.sol#124-134) uses a dangerous strict equality:
+	- dt == 0 (src/LendingPool.sol#126)
+LendingPool.accrue() (src/LendingPool.sol#124-134) uses a dangerous strict equality:
+	- totalDebtShares == 0 (src/LendingPool.sol#128)
+LendingPool.isLiquidatable(address) (src/LendingPool.sol#118-122) uses a dangerous strict equality:
+	- debt == 0 (src/LendingPool.sol#120)
+LendingPool.liquidate(address,uint256) (src/LendingPool.sol#259-290) uses a dangerous strict equality:
+	- debtSharesOf[user] > 0 && collateralOf[user] == 0 (src/LendingPool.sol#284)
+LendingPool.liquidate(address,uint256) (src/LendingPool.sol#259-290) uses a dangerous strict equality:
+	- repaid == debt (src/LendingPool.sol#273)
+LendingPool.repay(uint256) (src/LendingPool.sol#243-255) uses a dangerous strict equality:
+	- paid == debt (src/LendingPool.sol#249)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities
+INFO:Detectors:
+Detector: reentrancy-no-eth
+Reentrancy in LendingPool.deposit(uint256,address) (src/LendingPool.sol#168-176):
+	External calls:
+	- require(bool,string)(asset.transferFrom(msg.sender,address(this),assets),TRANSFER) (src/LendingPool.sol#173)
+	State variables written after the call(s):
+	- _mint(receiver,shares) (src/LendingPool.sol#174)
+		- totalSupply += amount (src/LendingPool.sol#324)
+	LendingPool.totalSupply (src/LendingPool.sol#36) can be used in cross function reentrancies:
+	- LendingPool.convertToAssets(uint256) (src/LendingPool.sol#142-144)
+	- LendingPool.convertToShares(uint256) (src/LendingPool.sol#138-140)
+	- LendingPool.previewMint(uint256) (src/LendingPool.sol#150-152)
+	- LendingPool.previewWithdraw(uint256) (src/LendingPool.sol#154-156)
+	- LendingPool.totalSupply (src/LendingPool.sol#36)
+Reentrancy in LendingPool.liquidate(address,uint256) (src/LendingPool.sol#259-290):
+	External calls:
+	- asset.transferFrom(msg.sender,address(this),repaid) (src/LendingPool.sol#276)
+	State variables written after the call(s):
+	- collateralOf[user] = coll - seize (src/LendingPool.sol#277)
+	LendingPool.collateralOf (src/LendingPool.sol#44) can be used in cross function reentrancies:
+	- LendingPool.collateralOf (src/LendingPool.sol#44)
+	- LendingPool.collateralValue(address) (src/LendingPool.sol#110-112)
+	- LendingPool.isLiquidatable(address) (src/LendingPool.sol#118-122)
+	- LendingPool.maxBorrow(address) (src/LendingPool.sol#114-116)
+	- debtSharesOf[user] = shares - burned (src/LendingPool.sol#278)
+	LendingPool.debtSharesOf (src/LendingPool.sol#45) can be used in cross function reentrancies:
+	- LendingPool.debtOf(address) (src/LendingPool.sol#106-108)
+	- LendingPool.debtSharesOf (src/LendingPool.sol#45)
+	- totalDebtShares -= burned (src/LendingPool.sol#279)
+	LendingPool.totalDebtShares (src/LendingPool.sol#40) can be used in cross function reentrancies:
+	- LendingPool.accrue() (src/LendingPool.sol#124-134)
+	- LendingPool.totalDebt() (src/LendingPool.sol#102-104)
+	- LendingPool.totalDebtShares (src/LendingPool.sol#40)
+Reentrancy in LendingPool.liquidate(address,uint256) (src/LendingPool.sol#259-290):
+	External calls:
+	- asset.transferFrom(msg.sender,address(this),repaid) (src/LendingPool.sol#276)
+	- require(bool,string)(collateral.transfer(msg.sender,seize),TRANSFER) (src/LendingPool.sol#281)
+	State variables written after the call(s):
+	- debtSharesOf[user] = 0 (src/LendingPool.sol#286)
+	LendingPool.debtSharesOf (src/LendingPool.sol#45) can be used in cross function reentrancies:
+	- LendingPool.debtOf(address) (src/LendingPool.sol#106-108)
+	- LendingPool.debtSharesOf (src/LendingPool.sol#45)
+	- totalDebtShares -= badShares (src/LendingPool.sol#287)
+	LendingPool.totalDebtShares (src/LendingPool.sol#40) can be used in cross function reentrancies:
+	- LendingPool.accrue() (src/LendingPool.sol#124-134)
+	- LendingPool.totalDebt() (src/LendingPool.sol#102-104)
+	- LendingPool.totalDebtShares (src/LendingPool.sol#40)
+Reentrancy in LendingPool.mint(uint256,address) (src/LendingPool.sol#178-185):
+	External calls:
+	- require(bool,string)(asset.transferFrom(msg.sender,address(this),assets),TRANSFER) (src/LendingPool.sol#182)
+	State variables written after the call(s):
+	- _mint(receiver,shares) (src/LendingPool.sol#183)
+		- totalSupply += amount (src/LendingPool.sol#324)
+	LendingPool.totalSupply (src/LendingPool.sol#36) can be used in cross function reentrancies:
+	- LendingPool.convertToAssets(uint256) (src/LendingPool.sol#142-144)
+	- LendingPool.convertToShares(uint256) (src/LendingPool.sol#138-140)
+	- LendingPool.previewMint(uint256) (src/LendingPool.sol#150-152)
+	- LendingPool.previewWithdraw(uint256) (src/LendingPool.sol#154-156)
+	- LendingPool.totalSupply (src/LendingPool.sol#36)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
+INFO:Detectors:
+Detector: unused-return
+TwapOracle._feedPrice() (src/TwapOracle.sol#137-143) ignores return value by (roundId,answer,None,updatedAt,answeredInRound) = feed.latestRoundData() (src/TwapOracle.sol#138)
+TwapOracle._requireSequencerUp() (src/TwapOracle.sol#145-150) ignores return value by (None,status,startedAt,None,None) = sequencer.latestRoundData() (src/TwapOracle.sol#147)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
+INFO:Detectors:
+Detector: events-access
+TwapOracle.transferOwnership(address) (src/TwapOracle.sol#177-180) should emit an event for: 
+	- owner = newOwner (src/TwapOracle.sol#179) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-access-control
+INFO:Detectors:
+Detector: missing-zero-check
+Timelock.execute(bytes32,address,uint256,bytes).target (src/Timelock.sol#68) lacks a zero-check on :
+		- (ok,None) = target.call{value: value}(data) (src/Timelock.sol#72)
+TwapOracle.constructor(address,address,AggregatorV3Interface,AggregatorV3Interface,uint256,uint256,uint256,uint256,uint256).feeder_ (src/TwapOracle.sol#56) lacks a zero-check on :
+		- feeder = feeder_ (src/TwapOracle.sol#71)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
+INFO:Detectors:
+Detector: reentrancy-benign
+Reentrancy in LendingPool.deposit(uint256,address) (src/LendingPool.sol#168-176):
+	External calls:
+	- require(bool,string)(asset.transferFrom(msg.sender,address(this),assets),TRANSFER) (src/LendingPool.sol#173)
+	State variables written after the call(s):
+	- _mint(receiver,shares) (src/LendingPool.sol#174)
+		- balanceOf[to] += amount (src/LendingPool.sol#325)
+Reentrancy in LendingPool.depositCollateral(uint256) (src/LendingPool.sol#213-218):
+	External calls:
+	- require(bool,string)(collateral.transferFrom(msg.sender,address(this),amount),TRANSFER) (src/LendingPool.sol#215)
+	State variables written after the call(s):
+	- collateralOf[msg.sender] += amount (src/LendingPool.sol#216)
+Reentrancy in LendingPool.mint(uint256,address) (src/LendingPool.sol#178-185):
+	External calls:
+	- require(bool,string)(asset.transferFrom(msg.sender,address(this),assets),TRANSFER) (src/LendingPool.sol#182)
+	State variables written after the call(s):
+	- _mint(receiver,shares) (src/LendingPool.sol#183)
+		- balanceOf[to] += amount (src/LendingPool.sol#325)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3
+INFO:Detectors:
+Detector: reentrancy-events
+Reentrancy in Timelock.execute(bytes32,address,uint256,bytes) (src/Timelock.sol#68-75):
+	External calls:
+	- (ok,None) = target.call{value: value}(data) (src/Timelock.sol#72)
+	Event emitted after the call(s):
+	- Executed(id,target,value,data) (src/Timelock.sol#74)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-4
+INFO:Detectors:
+Detector: timestamp
+LendingPool.isLiquidatable(address) (src/LendingPool.sol#118-122) uses timestamp for comparisons
+	Dangerous comparisons:
+	- debt == 0 (src/LendingPool.sol#120)
+	- collateralOf[user].mulDivDown(oracle.price(),WAD).mulDivDown(liquidationThreshold,WAD) < debt (src/LendingPool.sol#121)
+LendingPool.accrue() (src/LendingPool.sol#124-134) uses timestamp for comparisons
+	Dangerous comparisons:
+	- dt == 0 (src/LendingPool.sol#126)
+	- totalDebtShares == 0 (src/LendingPool.sol#128)
+LendingPool.deposit(uint256,address) (src/LendingPool.sol#168-176) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(shares > 0,ZERO_SHARES) (src/LendingPool.sol#172)
+LendingPool.mint(uint256,address) (src/LendingPool.sol#178-185) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(asset.transferFrom(msg.sender,address(this),assets),TRANSFER) (src/LendingPool.sol#182)
+LendingPool.withdraw(uint256,address,address) (src/LendingPool.sol#187-197) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(shares <= balanceOf[owner_],BALANCE) (src/LendingPool.sol#191)
+LendingPool.redeem(uint256,address,address) (src/LendingPool.sol#199-209) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(shares <= balanceOf[owner_],BALANCE) (src/LendingPool.sol#202)
+	- require(bool,string)(asset.balanceOf(address(this)) >= assets,ILLIQUID) (src/LendingPool.sol#204)
+	- require(bool,string)(asset.transfer(receiver,assets),TRANSFER) (src/LendingPool.sol#207)
+LendingPool.withdrawCollateral(uint256) (src/LendingPool.sol#220-228) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(amount <= collateralOf[msg.sender],COLLATERAL) (src/LendingPool.sol#223)
+	- require(bool,string)(debtOf(msg.sender) <= maxBorrow(msg.sender),LTV) (src/LendingPool.sol#225)
+LendingPool.borrow(uint256,address) (src/LendingPool.sol#230-241) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(newShares.mulDivDown(borrowIndex,WAD) <= maxBorrow(msg.sender),LTV) (src/LendingPool.sol#236)
+LendingPool.repay(uint256) (src/LendingPool.sol#243-255) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(paid > 0,AMOUNT) (src/LendingPool.sol#248)
+	- burned > shares (src/LendingPool.sol#250)
+	- require(bool,string)(asset.transferFrom(msg.sender,address(this),paid),TRANSFER) (src/LendingPool.sol#253)
+	- paid == debt (src/LendingPool.sol#249)
+LendingPool.liquidate(address,uint256) (src/LendingPool.sol#259-290) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(coll.mulDivDown(price,WAD).mulDivDown(liquidationThreshold,WAD) < debt,HEALTHY) (src/LendingPool.sol#266)
+	- require(bool,string)(repaid > 0,REPAY) (src/LendingPool.sol#270)
+	- burned > shares (src/LendingPool.sol#274)
+	- require(bool,string)(collateral.transfer(msg.sender,seize),TRANSFER) (src/LendingPool.sol#281)
+	- debtSharesOf[user] > 0 && collateralOf[user] == 0 (src/LendingPool.sol#284)
+	- repaid == debt (src/LendingPool.sol#273)
+LendingPool._transfer(address,address,uint256) (src/LendingPool.sol#311-320) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(balance >= amount,BALANCE) (src/LendingPool.sol#314)
+LendingPool._burn(address,uint256) (src/LendingPool.sol#329-337) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(balance >= amount,BALANCE) (src/LendingPool.sol#331)
+LendingPool._spendAllowance(address,address,uint256) (src/LendingPool.sol#339-348) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(allowed >= amount,ALLOWANCE) (src/LendingPool.sol#342)
+Timelock.cancel(bytes32) (src/Timelock.sol#62-66) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(eta[id] != 0,UNKNOWN) (src/Timelock.sol#63)
+Timelock.execute(bytes32,address,uint256,bytes) (src/Timelock.sol#68-75) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(eta[id] != 0,UNKNOWN) (src/Timelock.sol#69)
+	- require(bool,string)(block.timestamp >= eta[id],TOO_EARLY) (src/Timelock.sol#70)
+TwapOracle.pushPrice(uint256) (src/TwapOracle.sol#84-97) uses timestamp for comparisons
+	Dangerous comparisons:
+	- dt > 0 && lastPrice > 0 (src/TwapOracle.sol#88)
+TwapOracle.cumulativeAt(uint256) (src/TwapOracle.sol#101-115) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(target <= block.timestamp,FUTURE) (src/TwapOracle.sol#103)
+	- target >= lastTs (src/TwapOracle.sol#104)
+	- c.ts <= target (src/TwapOracle.sol#110)
+TwapOracle.twap() (src/TwapOracle.sol#117-125) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(block.timestamp >= window,WINDOW) (src/TwapOracle.sol#119)
+	- require(bool,string)(block.timestamp - lastTs <= heartbeat,STALE) (src/TwapOracle.sol#120)
+TwapOracle.price() (src/TwapOracle.sol#127-135) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)((diff * WAD) / twapPrice <= maxDeviation,DEVIATION) (src/TwapOracle.sol#133)
+	- twapPrice > feedPrice (src/TwapOracle.sol#132)
+TwapOracle._feedPrice() (src/TwapOracle.sol#137-143) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(updatedAt + maxAge >= block.timestamp,FEED_STALE) (src/TwapOracle.sol#140)
+TwapOracle._requireSequencerUp() (src/TwapOracle.sol#145-150) uses timestamp for comparisons
+	Dangerous comparisons:
+	- require(bool,string)(startedAt + gracePeriod <= block.timestamp,SEQUENCER_GRACE) (src/TwapOracle.sol#149)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+INFO:Detectors:
+Detector: low-level-calls
+Low level call in Timelock.execute(bytes32,address,uint256,bytes) (src/Timelock.sol#68-75):
+	- (ok,None) = target.call{value: value}(data) (src/Timelock.sol#72)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+INFO:Detectors:
+Detector: immutable-states
+LendingPool.model (src/LendingPool.sol#27) should be immutable 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-immutable
+INFO:Slither:. analyzed (8 contracts with 102 detectors), 43 result(s) found

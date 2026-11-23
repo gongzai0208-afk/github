@@ -1,0 +1,51 @@
+No files changed, compilation skipped
+
+Ran 3 tests for test/EntityForgingPoC.t.sol:EntityForgingPoC
+[PASS] test_PoC_P12_taxCutDivisorMisprices() (gas: 1254046)
+[PASS] test_PoC_P1_excessPaymentLocked() (gas: 721395)
+[PASS] test_PoC_P5_forgerUsedPotentialPlusOne() (gas: 1608373)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 5.80ms (12.33ms CPU time)
+
+Ran 9 tests for test/Regression.t.sol:TraitForgeRegression
+[PASS] test_regression_forgeAtExactFee() (gas: 1059277)
+[SKIP] test_regression_patch_budgetMintAcrossBoundary() (gas: 0)
+[SKIP] test_regression_patch_burnDebitsCurrentOwner() (gas: 0)
+[SKIP] test_regression_patch_entropyCallerRole() (gas: 0)
+[SKIP] test_regression_patch_guards() (gas: 0)
+[SKIP] test_regression_patch_pauseStopsMinting() (gas: 0)
+[SKIP] test_regression_patch_rolloverKeepsPrefillAndPrice() (gas: 0)
+[PASS] test_regression_realForge() (gas: 1614590)
+[PASS] test_regression_singleMint() (gas: 455624)
+Suite result: ok. 3 passed; 0 failed; 6 skipped; finished in 6.11ms (20.61ms CPU time)
+
+Ran 9 tests for test/TraitForgeNftPoC.t.sol:TraitForgeNftPoC
+[PASS] test_PoC_P10_rolloverRevertsWithoutOwnershipTransfer() (gas: 18078756)
+[PASS] test_PoC_P11_ownershipTransferStrandsEntropyAdmin() (gas: 18101951)
+[PASS] test_PoC_P2_mintWithBudgetDeadAfterMaxSupply() (gas: 2556050)
+[PASS] test_PoC_P3_generationCountWipedOnRollover() (gas: 36724839)
+[PASS] test_PoC_P4_generationExceedsMaxGeneration() (gas: 18454899)
+[PASS] test_PoC_P6_priceOverchargeAtGenerationRollover() (gas: 18446495)
+[PASS] test_PoC_P7_burnDebitsOriginalMinter() (gas: 865117)
+[PASS] test_PoC_P8_pauseUnreachable() (gas: 87442)
+[PASS] test_PoC_P9_zeroTreasuryBurnsFunds() (gas: 522123)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 15.56ms (49.25ms CPU time)
+
+Ran 1 test for test/invariant/TraitForgeInvariants.t.sol:TraitForgeInvariants
+[PASS]
+TraitForgeInvariants invariants:
+[PASS] invariant_contractHoldsNoEth
+[PASS] invariant_generationStaysWithinCap
+[PASS] invariant_generationWithinMax
+ TraitForgeInvariants invariants (runs: 64, calls: 2048, reverts: 0)
+
+╭-------------+----------------+-------+---------+----------╮
+| Contract    | Selector       | Calls | Reverts | Discards |
++===========================================================+
+| MintHandler | mint           | 1025  | 0       | 0        |
+|-------------+----------------+-------+---------+----------|
+| MintHandler | mintWithBudget | 1023  | 0       | 0        |
+╰-------------+----------------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.65s (1.65s CPU time)
+
+Ran 4 test suites in 1.66s (1.68s CPU time): 16 tests passed, 0 failed, 6 skipped (22 total tests)

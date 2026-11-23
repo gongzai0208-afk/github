@@ -3,8 +3,10 @@ out/
 cache/
 broadcast/**/*.lock
 
-# dependencies, installed with `forge install`
-lib/
+# dependencies for the labs, installed with `forge install`
+/01-bytecode-lab/lib/
+/02-protocol-lab/lib/
+/03-l2-bridge/lib/
 
 # python
 __pycache__/

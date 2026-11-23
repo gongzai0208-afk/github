@@ -1,0 +1,16 @@
+No files changed, compilation skipped
+
+Ran 1 test for test/TraitForgeNftPoC.t.sol:TraitForgeNftPoC
+[FAIL: next call did not revert as expected] test_PoC_P11_ownershipTransferStrandsEntropyAdmin() (gas: 24389826)
+Suite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 3.08ms (1.86ms CPU time)
+
+Ran 1 test suite in 5.32ms (3.08ms CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)
+
+Failing tests:
+Encountered 1 failing test in test/TraitForgeNftPoC.t.sol:TraitForgeNftPoC
+[FAIL: next call did not revert as expected] test_PoC_P11_ownershipTransferStrandsEntropyAdmin() (gas: 24389826)
+
+Encountered a total of 1 failing tests, 0 tests succeeded
+
+Tip: Run `forge test --rerun` to retry only the 1 failed test
+Tip: Run `forge test --debug --match-test <TEST_NAME>` to inspect one failing test in the debugger

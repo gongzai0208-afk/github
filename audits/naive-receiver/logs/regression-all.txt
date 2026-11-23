@@ -1,0 +1,10 @@
+No files changed, compilation skipped
+
+Ran 4 tests for test/Regression.t.sol:NaiveReceiverRegression
+[PASS] test_regression_depositAndWithdraw() (gas: 170421)
+[PASS] test_regression_forwardedSingleCall() (gas: 233616)
+[PASS] test_regression_patch_spoofedMulticallRejected() (gas: 109937)
+[PASS] test_regression_selfInitiatedFlashLoan() (gas: 120653)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 1.69ms (2.17ms CPU time)
+
+Ran 1 test suite in 4.93ms (1.69ms CPU time): 4 tests passed, 0 failed, 0 skipped (4 total tests)

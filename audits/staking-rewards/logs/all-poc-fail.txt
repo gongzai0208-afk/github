@@ -1,0 +1,54 @@
+Compiling 35 files with Solc 0.8.25
+Solc 0.8.25 finished in 2.13s
+Compiler run successful!
+
+Ran 3 tests for test/StakingRewardsPoC.t.sol:StakingRewardsPoC
+[FAIL: RewardTooHigh()] test_PoC_budgetDoubleSpent_secondStakerUnpaid() (gas: 330687)
+[FAIL: next call did not revert as expected] test_PoC_exitRevertsWithoutStake() (gas: 54165)
+[FAIL: alice only earns the half she was actually staking through: 100000000000000000000 != 50000000000000000000] test_PoC_rewardsDroppedWhileNoStakers() (gas: 390369)
+Suite result: FAILED. 0 passed; 3 failed; 0 skipped; finished in 2.98ms (1.27ms CPU time)
+
+Ran 6 tests for test/Regression.t.sol:StakingRewardsRegression
+[PASS] test_regression_fullPeriodPaysBudget() (gas: 330582)
+[PASS] test_regression_oneWeiInstantClaimEarnsNothing() (gas: 241934)
+[PASS] test_regression_patch_exitPaysAfterFullWithdraw() (gas: 424882)
+[PASS] test_regression_patch_idleFreezesPeriod() (gas: 510016)
+[PASS] test_regression_patch_secondNotifyRejected() (gas: 413656)
+[PASS] test_regression_twoStakersSplitProRata() (gas: 593744)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 2.96ms (4.23ms CPU time)
+
+Ran 1 test for test/invariant/StakingInvariants.t.sol:StakingInvariants
+[PASS]
+StakingInvariants invariants:
+[PASS] invariant_rewardsAreConserved
+[PASS] invariant_stakingBalanceMatchesTotalStaked
+ StakingInvariants invariants (runs: 64, calls: 2048, reverts: 0)
+
+╭----------------+-----------+-------+---------+----------╮
+| Contract       | Selector  | Calls | Reverts | Discards |
++=========================================================+
+| StakingHandler | getReward | 411   | 0       | 0        |
+|----------------+-----------+-------+---------+----------|
+| StakingHandler | notify    | 434   | 0       | 0        |
+|----------------+-----------+-------+---------+----------|
+| StakingHandler | stake     | 411   | 0       | 0        |
+|----------------+-----------+-------+---------+----------|
+| StakingHandler | warp      | 401   | 0       | 0        |
+|----------------+-----------+-------+---------+----------|
+| StakingHandler | withdraw  | 391   | 0       | 0        |
+╰----------------+-----------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 221.30ms (218.33ms CPU time)
+
+Ran 3 test suites in 226.37ms (227.24ms CPU time): 7 tests passed, 3 failed, 0 skipped (10 total tests)
+
+Failing tests:
+Encountered 3 failing tests in test/StakingRewardsPoC.t.sol:StakingRewardsPoC
+[FAIL: RewardTooHigh()] test_PoC_budgetDoubleSpent_secondStakerUnpaid() (gas: 330687)
+[FAIL: next call did not revert as expected] test_PoC_exitRevertsWithoutStake() (gas: 54165)
+[FAIL: alice only earns the half she was actually staking through: 100000000000000000000 != 50000000000000000000] test_PoC_rewardsDroppedWhileNoStakers() (gas: 390369)
+
+Encountered a total of 3 failing tests, 7 tests succeeded
+
+Tip: Run `forge test --rerun` to retry only the 3 failed tests
+Tip: Run `forge test --debug --match-test <TEST_NAME>` to inspect one failing test in the debugger

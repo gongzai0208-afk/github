@@ -1,0 +1,75 @@
+Compiling 65 files with Solc 0.8.25
+Solc 0.8.25 finished in 4.83s
+Compiler run successful!
+
+Ran 3 tests for test/EntityForgingPoC.t.sol:EntityForgingPoC
+[FAIL: 5% cut is applied as a divisor: the treasury takes 20%: 50000000000000000 != 200000000000000000] test_PoC_P12_taxCutDivisorMisprices() (gas: 732124)
+[FAIL: Incorrect fee] test_PoC_P1_excessPaymentLocked() (gas: 470017)
+[FAIL: Entity has reached its forging limit] test_PoC_P5_forgerUsedPotentialPlusOne() (gas: 1321095)
+Suite result: FAILED. 0 passed; 3 failed; 0 skipped; finished in 2.78ms (3.50ms CPU time)
+
+Ran 9 tests for test/Regression.t.sol:TraitForgeRegression
+[PASS] test_regression_forgeAtExactFee() (gas: 2829120)
+[PASS] test_regression_patch_budgetMintAcrossBoundary() (gas: 31959719)
+[PASS] test_regression_patch_burnDebitsCurrentOwner() (gas: 733901)
+[PASS] test_regression_patch_entropyCallerRole() (gas: 24669130)
+[PASS] test_regression_patch_guards() (gas: 2647580)
+[PASS] test_regression_patch_pauseStopsMinting() (gas: 535933)
+[PASS] test_regression_patch_rolloverKeepsPrefillAndPrice() (gas: 24690743)
+[PASS] test_regression_realForge() (gas: 3382953)
+[PASS] test_regression_singleMint() (gas: 456105)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 8.33ms (25.67ms CPU time)
+
+Ran 9 tests for test/TraitForgeNftPoC.t.sol:TraitForgeNftPoC
+[FAIL: next call did not revert as expected] test_PoC_P10_rolloverRevertsWithoutOwnershipTransfer() (gas: 24718611)
+[FAIL: next call did not revert as expected] test_PoC_P11_ownershipTransferStrandsEntropyAdmin() (gas: 24697540)
+[FAIL: mintWithBudget must mint nothing once _tokenIds >= maxTokensPerGen: 143 != 0] test_PoC_P2_mintWithBudgetDeadAfterMaxSupply() (gas: 38194940)
+[FAIL: generationMintCounts[2] was reset, erasing N entities (correct value is N+1): 9 != 1] test_PoC_P3_generationCountWipedOnRollover() (gas: 43416853)
+[FAIL: Exceeds max generations] test_PoC_P4_generationExceedsMaxGeneration() (gas: 24303931)
+[FAIL: buyer net spend is the maxed-out generation-1 price: 5000000000000000 != 250000000000000000] test_PoC_P6_priceOverchargeAtGenerationRollover() (gas: 24750088)
+[FAIL: burn debited the original minter: 0x000000000000000000000000000000000000cafE != 0x00000000000000000000000000000000000A11cE] test_PoC_P7_burnDebitsOriginalMinter() (gas: 886280)
+[FAIL: pause() is reachable from outside] test_PoC_P8_pauseUnreachable() (gas: 99075)
+[FAIL: Zero address] test_PoC_P9_zeroTreasuryBurnsFunds() (gas: 29063)
+Suite result: FAILED. 0 passed; 9 failed; 0 skipped; finished in 13.95ms (48.68ms CPU time)
+
+Ran 1 test for test/invariant/TraitForgeInvariants.t.sol:TraitForgeInvariants
+[PASS]
+TraitForgeInvariants invariants:
+[PASS] invariant_contractHoldsNoEth
+[PASS] invariant_generationStaysWithinCap
+[PASS] invariant_generationWithinMax
+ TraitForgeInvariants invariants (runs: 64, calls: 2048, reverts: 0)
+
+╭-------------+----------------+-------+---------+----------╮
+| Contract    | Selector       | Calls | Reverts | Discards |
++===========================================================+
+| MintHandler | mint           | 1024  | 0       | 0        |
+|-------------+----------------+-------+---------+----------|
+| MintHandler | mintWithBudget | 1024  | 0       | 0        |
+╰-------------+----------------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.61s (1.61s CPU time)
+
+Ran 4 test suites in 1.62s (1.64s CPU time): 10 tests passed, 12 failed, 0 skipped (22 total tests)
+
+Failing tests:
+Encountered 3 failing tests in test/EntityForgingPoC.t.sol:EntityForgingPoC
+[FAIL: 5% cut is applied as a divisor: the treasury takes 20%: 50000000000000000 != 200000000000000000] test_PoC_P12_taxCutDivisorMisprices() (gas: 732124)
+[FAIL: Incorrect fee] test_PoC_P1_excessPaymentLocked() (gas: 470017)
+[FAIL: Entity has reached its forging limit] test_PoC_P5_forgerUsedPotentialPlusOne() (gas: 1321095)
+
+Encountered 9 failing tests in test/TraitForgeNftPoC.t.sol:TraitForgeNftPoC
+[FAIL: next call did not revert as expected] test_PoC_P10_rolloverRevertsWithoutOwnershipTransfer() (gas: 24718611)
+[FAIL: next call did not revert as expected] test_PoC_P11_ownershipTransferStrandsEntropyAdmin() (gas: 24697540)
+[FAIL: mintWithBudget must mint nothing once _tokenIds >= maxTokensPerGen: 143 != 0] test_PoC_P2_mintWithBudgetDeadAfterMaxSupply() (gas: 38194940)
+[FAIL: generationMintCounts[2] was reset, erasing N entities (correct value is N+1): 9 != 1] test_PoC_P3_generationCountWipedOnRollover() (gas: 43416853)
+[FAIL: Exceeds max generations] test_PoC_P4_generationExceedsMaxGeneration() (gas: 24303931)
+[FAIL: buyer net spend is the maxed-out generation-1 price: 5000000000000000 != 250000000000000000] test_PoC_P6_priceOverchargeAtGenerationRollover() (gas: 24750088)
+[FAIL: burn debited the original minter: 0x000000000000000000000000000000000000cafE != 0x00000000000000000000000000000000000A11cE] test_PoC_P7_burnDebitsOriginalMinter() (gas: 886280)
+[FAIL: pause() is reachable from outside] test_PoC_P8_pauseUnreachable() (gas: 99075)
+[FAIL: Zero address] test_PoC_P9_zeroTreasuryBurnsFunds() (gas: 29063)
+
+Encountered a total of 12 failing tests, 10 tests succeeded
+
+Tip: Run `forge test --rerun` to retry only the 12 failed tests
+Tip: Run `forge test --debug --match-test <TEST_NAME>` to inspect one failing test in the debugger
