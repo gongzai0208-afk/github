@@ -1,0 +1,41 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  bytecode-lab:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 01-bytecode-lab
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: PYTHONPATH=. python -m unittest discover -s tests -v
+
+  protocol-lab:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 02-protocol-lab
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - run: forge install foundry-rs/forge-std --no-commit
+      - run: forge test -vv
+
+  bridge-lab:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 03-l2-bridge
+    steps:
+      - uses: actions/checkout@v4
+      - uses: foundry-rs/foundry-toolchain@v1
+      - run: forge install foundry-rs/forge-std --no-commit
+      # fork tests need a public RPC and are run locally; see FORKS.md
+      - run: forge test --no-match-path 'test/fork/*' -vv

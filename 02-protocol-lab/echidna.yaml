@@ -1,0 +1,13 @@
+# Echidna configuration for the lending pool.
+# Run from 02-protocol-lab:
+#   echidna test/echidna/EchidnaProps.sol --contract EchidnaProps --config echidna.yaml
+
+testMode: property
+testLimit: 50000
+seqLen: 100
+shrinkLimit: 5000
+coverage: true
+corpusDir: echidna-corpus
+balanceAddr: 0xffffffff
+balanceContract: 0xffffffff
+cryticArgs: ["--foundry-compile-all"]

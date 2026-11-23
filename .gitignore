@@ -1,0 +1,21 @@
+# foundry
+out/
+cache/
+broadcast/**/*.lock
+
+# dependencies, installed with `forge install`
+lib/
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# secrets and local config
+.env
+.env.*
+!.env.example
+
+# os
+.DS_Store
+Thumbs.db
