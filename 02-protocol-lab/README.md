@@ -9,11 +9,11 @@ patch → failed PoC → regression) also runs on code I wrote.
 | Piece | State |
 |---|---|
 | Contracts | 5 in `src/`: pool (ERC-4626 + borrow), interest model, TWAP oracle, timelock |
-| Unit tests | 36 passing, one `.t.sol` per contract |
+| Unit tests | 40 passing, one `.t.sol` per contract |
 | Invariant tests | 5 properties, 64 runs × 32 depth, passing |
 | Echidna | 3 properties, 20,000 calls, passing in WSL — see `test/echidna/RESULTS.md` |
-| Self-audit | `audit/AUDIT.md`: two bugs found (one by a unit test, one by Echidna) and fixed |
-| Static analysis | `audit/slither/SLITHER.md`: 43 findings triaged, 3 Low accepted as follow-ups |
+| Self-audit | `audit/AUDIT.md`: five bugs found (a unit test, Echidna, and three from static analysis) and fixed |
+| Static analysis | `audit/slither/SLITHER.md`: 43 findings, 4 fixed, 39 remain by design (before/after reports kept) |
 | Sepolia deployment | **live** — addresses, txs and on-chain checks in `deployments.md` |
 | Source verified | **yes** — 7/7 on Sepolia Etherscan, see `deployments.md` |
 
@@ -41,7 +41,7 @@ Test files map to contracts one-to-one: `LendingPool.t.sol`, `InterestModel.t.so
 ## Verify
 
 ```bash
-forge test                     # 36 tests: unit + invariant
+forge test                     # 40 tests: unit + invariant
 forge coverage --report summary
 ```
 

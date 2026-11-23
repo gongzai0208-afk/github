@@ -22,7 +22,7 @@ public challenges with published answers and are labelled as reproductions, not 
 | Lab | Question | Evidence |
 |---|---|---|
 | [01-bytecode-lab](01-bytecode-lab/) | Can I audit a contract with no source? | disassembler + dispatcher recovery + entry table, 14 tests, one committed sample |
-| [02-protocol-lab](02-protocol-lab/) | Can I build the DeFi primitives I review? | ERC-4626 lending pool + TWAP oracle + timelock, 36 tests, 5 invariants, Echidna campaign, source-verified on Sepolia, Slither triage |
+| [02-protocol-lab](02-protocol-lab/) | Can I build the DeFi primitives I review? | ERC-4626 lending pool + TWAP oracle + timelock, 40 tests, 5 invariants, Echidna campaign, source-verified on Sepolia, Slither triage |
 | [03-l2-bridge](03-l2-bridge/) | Do I understand L2 and cross-chain assumptions? | 24 tests against OP Sepolia and Unichain Sepolia, 24-item checklist, written report |
 
 `02` is deployed and its seven contracts are verified on Etherscan — addresses, transaction hashes and

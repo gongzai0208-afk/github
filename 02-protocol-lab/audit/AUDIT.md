@@ -69,6 +69,50 @@ to `debtOf <= totalDebt` with no tolerance.
 **Residual risk.** Interest accrual still floors at the position level, so the sum can be below the
 total by a few wei in the pool's favour. That direction is safe and is not socialised.
 
+## F-03 - The liquidation pull ignores its return value
+
+**Severity:** Low. **Location:** `src/LendingPool.sol`, `liquidate()`.
+**Found by:** Slither (`unchecked-transfer`) on the first static-analysis pass.
+**Status:** fixed; `test_liquidation_reverts_when_the_pull_reports_failure`.
+
+**Root cause.** Every transfer in the contract is wrapped in `require(..., "TRANSFER")` except the
+one that pulls the repayment in `liquidate`: `asset.transferFrom(msg.sender, address(this), repaid);`.
+With an ERC-20 that returns `false` instead of reverting, the liquidation continued: collateral was
+seized, debt was burned, and the repayment never arrived.
+
+**Impact.** Bounded by the position being liquidated, and unreachable with the deployed `MockERC20`
+(which reverts on failure). It matters for the same reason the rest of the contract checks: the
+assumption "the token reverts" is a property of the token, not of this code.
+
+**Fix.** `require(asset.transferFrom(msg.sender, address(this), repaid), "TRANSFER");`
+
+## F-04 - Ownership of the oracle can change with no event
+
+**Severity:** Low. **Location:** `src/TwapOracle.sol`, `transferOwnership()`.
+**Found by:** Slither (`events-access`).
+**Status:** fixed; `test_transfer_ownership_emits_event`.
+
+**Root cause.** `transferOwnership` assigned `owner` and emitted nothing, while `LendingPool` and
+`Timelock` both emit on ownership change.
+
+**Impact.** No funds move. The cost is operational: an ownership handover on the contract that prices
+every loan leaves no trace to reconcile against. **Fix.** `event OwnershipTransferred(address indexed
+previousOwner, address indexed newOwner)` emitted before the assignment.
+
+## F-05 - Two addresses are accepted as zero
+
+**Severity:** Low. **Location:** `src/TwapOracle.sol` (constructor), `src/Timelock.sol` (`execute`).
+**Found by:** Slither (`missing-zero-check`).
+**Status:** fixed; `test_zero_feeder_is_rejected`, `test_execute_rejects_zero_target`.
+
+**Root cause.** The oracle accepts `feeder_ == address(0)`, which leaves it unpushable until the owner
+notices and calls `setFeeder`; and `Timelock.execute` accepts `target == address(0)`, where the
+low-level call succeeds and the timelock reports `Executed` for an action that did nothing - a silent
+no-op in the one place that is supposed to be auditable.
+
+**Impact.** Availability and observability, not funds. **Fix.** `require(feeder_ != address(0),
+"FEEDER")` in the constructor and `require(target != address(0), "TARGET")` in `execute`.
+
 ## Known limitations (not findings)
 
 | Item | Why it is accepted here |
@@ -84,6 +128,6 @@ total by a few wei in the pool's favour. That direction is safe and is not socia
 
 - No fork test against a real pool; the oracle's Uniswap leg is a keeper push, not an on-chain
   accumulator.
-- Echidna properties exist but were not executed on this machine (see README).
+- Echidna ran in WSL (20,000 calls, `test/echidna/RESULTS.md`) but is not part of CI.
 - No invariant covering "share price never falls except on a bad-debt event"; the current suite
   checks accounting identities, not price monotonicity.

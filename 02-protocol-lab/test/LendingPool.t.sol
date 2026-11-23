@@ -8,6 +8,7 @@ import {TwapOracle} from "../src/TwapOracle.sol";
 import {Timelock} from "../src/Timelock.sol";
 import {MockERC20} from "./mocks/MockERC20.sol";
 import {MockFeed, MockSequencer} from "./mocks/MockFeeds.sol";
+import {IERC20} from "../src/interfaces/IERC20.sol";
 
 contract LendingPoolTest is Test {
     MockERC20 asset;
@@ -193,6 +194,25 @@ contract LendingPoolTest is Test {
         vm.prank(liquidator);
         vm.expectRevert(bytes("HEALTHY"));
         pool.liquidate(borrower, 1e18);
+    }
+
+    function test_liquidation_reverts_when_the_pull_reports_failure() public {
+        vm.prank(borrower);
+        pool.borrow(15_000e18, borrower);
+        _prime(1500e18);
+
+        asset.mint(liquidator, 20_000e18);
+        vm.prank(liquidator);
+        asset.approve(address(pool), type(uint256).max);
+
+        // A token that answers `false` instead of reverting: without the return check the
+        // collateral would be seized while the repayment never arrives.
+        vm.mockCall(address(asset), abi.encodeWithSelector(IERC20.transferFrom.selector), abi.encode(false));
+
+        vm.prank(liquidator);
+        vm.expectRevert(bytes("TRANSFER"));
+        pool.liquidate(borrower, 15_000e18);
+        assertGt(pool.collateralOf(borrower), 0, "collateral left the borrower");
     }
 
     // ------------------------------------------------------------- timelock integration

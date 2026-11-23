@@ -80,4 +80,11 @@ contract TimelockTest is Test {
         vm.expectRevert(bytes("DELAY_TOO_SHORT"));
         new Timelock(address(this), 59 minutes);
     }
+
+    function test_execute_rejects_zero_target() public {
+        bytes32 id = timelock.queue(address(0), 0, "");
+        vm.warp(block.timestamp + 1 days);
+        vm.expectRevert(bytes("TARGET"));
+        timelock.execute(id, address(0), 0, "");
+    }
 }

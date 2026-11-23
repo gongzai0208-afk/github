@@ -67,6 +67,7 @@ contract Timelock {
 
     function execute(bytes32 id, address target, uint256 value, bytes calldata data) external payable onlyOwner {
         require(eta[id] != 0, "UNKNOWN");
+        require(target != address(0), "TARGET");
         require(block.timestamp >= eta[id], "TOO_EARLY");
         delete eta[id];
         (bool ok, ) = target.call{value: value}(data);

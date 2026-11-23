@@ -273,7 +273,7 @@ contract LendingPool {
         uint256 burned = repaid == debt ? shares : repaid.mulDivUp(WAD, borrowIndex);
         if (burned > shares) burned = shares;
 
-        asset.transferFrom(msg.sender, address(this), repaid);
+        require(asset.transferFrom(msg.sender, address(this), repaid), "TRANSFER");
         collateralOf[user] = coll - seize;
         debtSharesOf[user] = shares - burned;
         totalDebtShares -= burned;

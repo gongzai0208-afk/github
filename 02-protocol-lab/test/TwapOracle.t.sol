@@ -6,6 +6,8 @@ import {TwapOracle} from "../src/TwapOracle.sol";
 import {MockFeed, MockSequencer} from "./mocks/MockFeeds.sol";
 
 contract TwapOracleTest is Test {
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
     MockFeed feed;
     MockSequencer sequencer;
     TwapOracle oracle;
@@ -85,5 +87,18 @@ contract TwapOracleTest is Test {
         vm.warp(block.timestamp + 100);
         vm.expectRevert(bytes("NO_HISTORY"));
         fresh.twap();
+    }
+
+    function test_zero_feeder_is_rejected() public {
+        vm.expectRevert(bytes("FEEDER"));
+        new TwapOracle(address(this), address(0), feed, sequencer, 1800, 3600, 3600, 0.05e18, 1800);
+    }
+
+    function test_transfer_ownership_emits_event() public {
+        address next = address(0xBEEF);
+        vm.expectEmit(true, true, false, false, address(oracle));
+        emit OwnershipTransferred(address(this), next);
+        oracle.transferOwnership(next);
+        assertEq(oracle.owner(), next);
     }
 }

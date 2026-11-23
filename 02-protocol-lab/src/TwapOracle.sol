@@ -63,6 +63,7 @@ contract TwapOracle is IOracle {
         uint256 gracePeriod_
     ) {
         require(owner_ != address(0), "OWNER");
+        require(feeder_ != address(0), "FEEDER");
         require(address(feed_) != address(0), "FEED");
         require(window_ > 0 && heartbeat_ >= window_, "WINDOW");
         uint8 decimals = feed_.decimals();
@@ -174,8 +175,11 @@ contract TwapOracle is IOracle {
         emit ParamsChanged(window_, heartbeat_, maxAge_, maxDeviation_, gracePeriod_);
     }
 
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
     function transferOwnership(address newOwner) external onlyOwner {
         require(newOwner != address(0), "OWNER");
+        emit OwnershipTransferred(owner, newOwner);
         owner = newOwner;
     }
 }
